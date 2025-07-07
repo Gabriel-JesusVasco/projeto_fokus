@@ -32,7 +32,7 @@ html {
 
 body {
     min-height: 100vh;
-    background: url("/imagens/pattern.png");
+    background: url("imagens/pattern.png");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -395,7 +395,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .app__section-active-task-label {
     font-family: Montserrat;
-    font-size: 1.25rem;
+    font-size: 2rem;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
@@ -422,7 +422,7 @@ h1, h2, h3, h4, h5, h6 {
 .app__section-task-list-item-description {
     flex-grow: 1;
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-style: normal;
     font-weight: 600;
     line-height: 150%;

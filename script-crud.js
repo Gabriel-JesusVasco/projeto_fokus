@@ -1,10 +1,13 @@
 const botaoAdicionarTarefa = document.querySelector('.app__button--add-task');
 const formularioAdicionarTarefa = document.querySelector('.app__form-add-task');
 const caixaTextoAdicionarTarefa = document.querySelector('.app__form-textarea');
-console.log(caixaTextoAdicionarTarefa)
-const listaTarefas = document.querySelector('.app__section-task-list')
-let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+const listaTarefas = document.querySelector('.app__section-task-list');
+const botaoCancelar = document.getElementById('botao_cancelar');
 
+let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+function salvarLocalStorage() {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+}
 function criarItemTarefa(tarefa) {
     const itemLista = document.createElement('li');
     itemLista.classList.add('app__section-task-list-item');
@@ -24,8 +27,16 @@ function criarItemTarefa(tarefa) {
     const botaoEditarTarefa = document.createElement('button');
     botaoEditarTarefa.classList.add('app_button-edit');
     const imagemEditarTarefa = document.createElement('img');
-    imagemEditarTarefa.setAttribute('src' , 'imagens/edit.png')
+    imagemEditarTarefa.setAttribute('src', 'imagens/edit.png')
     botaoEditarTarefa.appendChild(imagemEditarTarefa);
+    botaoEditarTarefa.addEventListener('click', ()=>{
+        let novoNomeTarefa = prompt('Qual o novo nome para a tarefa?');
+        if (novoNomeTarefa) {
+            paragrafoItemtarefa.textContent = novoNomeTarefa;
+            tarefa.nome = novoNomeTarefa;
+            salvarLocalStorage()
+        }
+    })
 
     itemLista.append(itemStatusTarefa);
     itemLista.append(paragrafoItemtarefa);
@@ -37,13 +48,17 @@ function criarItemTarefa(tarefa) {
 botaoAdicionarTarefa.addEventListener('click', (evento) => {
     formularioAdicionarTarefa.classList.toggle('hidden');
 });
+botaoCancelar.addEventListener('click', ()=>{
+    formularioAdicionarTarefa.classList.add('hidden')
+})
+
 formularioAdicionarTarefa.addEventListener('submit', (evento) => {
     evento.preventDefault();
     let tarefa = {
         nome: caixaTextoAdicionarTarefa.value
     }
     tarefas.push(tarefa);
-    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+    salvarLocalStorage()
     const elementoTarefa = criarItemTarefa(tarefa);
     listaTarefas.append(elementoTarefa)
     caixaTextoAdicionarTarefa.value = "";
