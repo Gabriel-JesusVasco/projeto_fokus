@@ -34,7 +34,7 @@ inputMusica.addEventListener('change', (evento) => {
 
 botaoFoco.addEventListener('click', (evento) => {
   evento.preventDefault();
-  tempoTemporizador = 1500;
+  tempoTemporizador = 10;
   alterarPagina('foco');
   botaoFoco.classList.add('active')
 });
@@ -98,6 +98,12 @@ function iniciarTemporizador() {
 }
 function temporizador() {
   if (tempoTemporizador <= 0) {
+    alert('Tempo Acabou!');
+    const focoAtivo = elementoHtml.getAttribute('data-contexto') == 'foco';
+    if (focoAtivo) {
+      const eventoPersonalizado = new CustomEvent ('focoFinalizado');
+      document.dispatchEvent(eventoPersonalizado);
+    }
     zerarTemporizador();
     audioAcabou.play();
     return;
