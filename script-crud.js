@@ -44,21 +44,26 @@ function criarItemTarefa(tarefa) {
     itemLista.append(paragrafoItemtarefa);
     itemLista.append(botaoEditarTarefa);
 
-    itemLista.addEventListener('click', () => {
-        document.querySelectorAll('.app__section-task-list-item-active').forEach(elemento => {
-            elemento.classList.remove('app__section-task-list-item-active');
+    if (tarefa.concluida) {
+        itemLista.classList.add('app__section-task-list-item-complete');
+        botaoEditarTarefa.setAttribute('disabled', 'disabled');
+    } else {
+        itemLista.addEventListener('click', () => {
+            document.querySelectorAll('.app__section-task-list-item-active').forEach(elemento => {
+                elemento.classList.remove('app__section-task-list-item-active');
+            });
+            if (tarefaSelecionada == tarefa) {
+                paragrafoTarefaSelecionada.textContent = '';
+                tarefaSelecionada = null;
+                itemTarefaSelecionada = null;
+                return;
+            };
+            tarefaSelecionada = tarefa;
+            itemTarefaSelecionada = itemLista;
+            paragrafoTarefaSelecionada.textContent = tarefa.nome;
+            itemLista.classList.add('app__section-task-list-item-active');
         });
-        if (tarefaSelecionada == tarefa) {
-            paragrafoTarefaSelecionada.textContent = '';
-            tarefaSelecionada = null;
-            itemTarefaSelecionada = null;
-            return;
-        };
-        tarefaSelecionada = tarefa;
-        itemTarefaSelecionada = itemLista;
-        paragrafoTarefaSelecionada.textContent = tarefa.nome;
-        itemLista.classList.add('app__section-task-list-item-active');
-    });
+    }
 
     return itemLista;
 }
@@ -92,5 +97,7 @@ document.addEventListener('focoFinalizado', () => {
         itemTarefaSelecionada.classList.add('app__section-task-list-item-complete');
         itemTarefaSelecionada.querySelector('button').setAttribute('disabled', 'disabled');
         paragrafoTarefaSelecionada.textContent = '';
+        tarefaSelecionada.concluida = true;
+        salvarLocalStorage();
     };
 });
