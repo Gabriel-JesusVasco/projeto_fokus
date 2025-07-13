@@ -34,7 +34,7 @@ inputMusica.addEventListener('change', (evento) => {
 
 botaoFoco.addEventListener('click', (evento) => {
   evento.preventDefault();
-  tempoTemporizador = 10;
+  tempoTemporizador = 1500;
   alterarPagina('foco');
   botaoFoco.classList.add('active')
 });
