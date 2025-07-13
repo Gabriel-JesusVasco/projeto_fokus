@@ -7,6 +7,8 @@ const paragrafoTarefaSelecionada = document.querySelector('.app__section-active-
 let tarefaSelecionada = null;
 let itemTarefaSelecionada = null;
 let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+const botaoRemoverTarefasConcluidas = document.querySelector('#btn-remover-concluidas');
+const botaoRemoverTodasTarefas = document.querySelector('#btn-remover-todas');
 function salvarLocalStorage() {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
 }
@@ -101,3 +103,16 @@ document.addEventListener('focoFinalizado', () => {
         salvarLocalStorage();
     };
 });
+function removerTarefas (todasTarefas) {
+    let seletorTarefas = '.app__section-task-list-item-complete'
+    if (todasTarefas) {
+        seletorTarefas = '.app__section-task-list-item'
+    }
+    document.querySelectorAll(seletorTarefas).forEach(elemento => {
+        elemento.remove()
+    });
+    tarefas =  todasTarefas ? [] : tarefas.filter(tarefa => !tarefa.concluida);
+    salvarLocalStorage();
+}
+botaoRemoverTarefasConcluidas.onclick = () => removerTarefas(false);
+botaoRemoverTodasTarefas.onclick = () => removerTarefas(true);
